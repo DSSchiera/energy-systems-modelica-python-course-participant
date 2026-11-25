@@ -1,0 +1,28 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+.ipynb_checkpoints/
+.pytest_cache/
+.ruff_cache/
+
+# Simulation output of the course scripts (energy_training.omc writes to output/)
+output/
+
+# OpenModelica simulation output (OMEdit writes these next to the models or in its work dir)
+*_res.mat
+*_res.csv
+*.log
+*.fmu
+*.exe
+*.o
+*.c
+*.h
+*.makefile
+*.libs
+*_info.json
+*_init.xml
+
+# OS
+.DS_Store
+Thumbs.db

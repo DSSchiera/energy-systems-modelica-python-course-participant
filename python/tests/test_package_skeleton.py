@@ -1,0 +1,21 @@
+"""Smoke tests: the package imports and the utilities behave."""
+
+import numpy as np
+
+import energy_training
+from energy_training.utilities import celsius_to_kelvin, kelvin_to_celsius, repo_root
+
+
+def test_version():
+    assert energy_training.__version__
+
+
+def test_temperature_roundtrip():
+    t = np.array([-10.0, 0.0, 55.0])
+    np.testing.assert_allclose(kelvin_to_celsius(celsius_to_kelvin(t)), t)
+    assert float(celsius_to_kelvin(0.0)) == 273.15
+
+
+def test_repo_root():
+    assert (repo_root() / "pyproject.toml").is_file()
+    assert (repo_root() / "python/src/energy_training/__init__.py").is_file()

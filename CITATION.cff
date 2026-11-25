@@ -1,0 +1,20 @@
+cff-version: 1.2.0
+message: "If you use this course material, please cite it as below."
+title: "Dynamic Modelling, Modelica and Techno-Economic Optimization of Energy Systems — training course"
+type: software
+authors:
+  - given-names: Daniele
+    family-names: Schiera
+license:
+  - MIT
+  - CC-BY-4.0
+version: "0.1.0-dev"
+keywords:
+  - Modelica
+  - OpenModelica
+  - energy systems
+  - FMI
+  - dynamic modelling
+  - district heating
+  - heat pumps
+  - techno-economic assessment
