@@ -7,8 +7,8 @@ subtitle: "Dynamic Modelling, Modelica and Techno-Economic Optimization of Energ
 
 - What happens between the **equations** and the **numbers**
 - **Simulation setup** and the **log**: what to read, where
-- **Initialization**: how many conditions, and how to give them
-- **Events**: why a thermostat can stall a simulation
+- **Initialization**: how many conditions, how to give them, steady start
+- **Events**: time and state events; why a thermostat can stall a simulation
 - **Stiffness**: implicit vs explicit solvers; solver error vs model error
 - A **checklist** for failed or wrong simulations
 
@@ -19,6 +19,14 @@ subtitle: "Dynamic Modelling, Modelica and Techno-Economic Optimization of Energ
 - **S4 — M03 in Modelica; how OpenModelica solves; debugging** ← today
 - S5 — heat pump + storage + zone + PV + battery (M05)
 - S6–S8 — FMU and scenarios, costs, optimal design and operation
+
+# Reading map
+
+- *Modelica by Example*: **Initialization**, **Cooling Revisited**, **State Event Handling**, **Hysteresis**
+- Each part of today's lesson points to its section (lesson §3)
+- Fritzson tutorial (2025): pipeline, debugger, events
+- Solvers, stiffness, OMEdit: OpenModelica **User's Guide**
+- The book has no solver chapter: that part is ours
 
 # From model to simulation
 
@@ -55,19 +63,12 @@ subtitle: "Dynamic Modelling, Modelica and Techno-Economic Optimization of Energ
 
 # Simulation setup
 
-- **Start, stop time**: the simulated interval [s]
-- **Interval**: spacing of the output points
-  - fixed-step methods: also the integration step
-- **Method**: `dassl` (default), `ida`, `cvode`, `euler`, …
-- **Tolerance**: for adaptive methods (default 1e-6)
-- Defaults come from the model's `experiment` annotation
-
-# Output interval is not accuracy
-
-- Adaptive solvers choose their own steps
-- Output points are **interpolated** between steps
-- M03, 3 h, DASSL: interval 600 s, 60 s or 10 s → **109 steps**, same error
-- To change accuracy: change the **tolerance** (or the model)
+- **Start, stop**, **interval** (fixed-step methods: also the step)
+- **Method** `dassl` (default), `ida`, `cvode`, `euler`, …; **tolerance** 1e-6
+- Defaults: the model's `experiment` annotation
+- Adaptive solvers **interpolate** the output points
+  - M03, 3 h: interval 600, 60 or 10 s → **109 steps**, same error
+- Accuracy: change the **tolerance** (or the model)
 
 # Reading the log
 
@@ -104,13 +105,42 @@ initial equation
 - *initial conditions are over specified*: too many
   - contradictory → *initialization problem is inconsistent*
 
-# Events
+# Start in equilibrium
 
-- `T < T_set` can change value only at an **event**
-- Integration stops, the crossing of $T - T_{set}$ is located, equations updated, restart
-- Between events the equations are **smooth** for the solver
-- **Time events** (`time >= t_stop`): known in advance
-- `noEvent(...)`: no event; only for smooth expressions
+```modelica
+initial equation
+  der(T_steady) = 0;   // steady start: T = 20 °C
+  T_fixed = T0;        // fixed start: 10 °C
+equation
+  T_amb = if time < t_step then T_amb_before
+          else T_amb_after;
+```
+
+- One initial equation **per state**, of any form
+- Steady start: the response shows **only** the disturbance
+
+# Steady start vs fixed start
+
+![](../../figures/generated/s04_steady_start_step.png)
+
+# Time and state events
+
+- `T < T_set` changes value only at an **event**: stop, locate, update, restart
+- Between events the equations stay **smooth** for the solver
+- **Time event**: condition on `time` only — can be scheduled
+- **State event**: condition on the solution — **root finding**
+- OpenModelica 1.27.1 finds the 24 h step by root finding too
+
+# A guard does not protect
+
+```modelica
+der(x) = if x >= 0 then -sqrt(x) else 0;
+```
+
+- Until the event is located, the **old branch** is used — also past the crossing
+- OpenModelica stops at 2 s: *Argument of sqrt(x) was -1.1e-11 …*
+- `noEvent(x >= 0)`: taken literally, runs to the end
+- Use `noEvent` only where the expression is continuous
 
 # Hysteresis with when
 
@@ -195,6 +225,7 @@ Q_flow = if heaterOn then Q_max else 0;
 
 - The compiler **sorts** equations, **tears** loops, chooses **states**
 - **One initial condition per state**; read the warnings
+- **Steady start** to see a disturbance alone
 - Relations make **events**; switching needs **hysteresis**
 - Stiff model → **implicit** solver; explicit steps are limited by the fastest mode
 - Tolerance ≠ accuracy of the **model**

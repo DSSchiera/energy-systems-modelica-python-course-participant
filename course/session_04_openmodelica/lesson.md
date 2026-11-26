@@ -16,10 +16,12 @@ After this session the participant can:
 2. set up a simulation (stop time, output interval, solver, tolerance) and read the simulation
    log and its solver statistics;
 3. state how many initial conditions a model needs, write them with `start`/`fixed` or
-   `initial equation` (also in steady state), and recognise under- and over-specified
-   initialization in the log;
-4. explain what an event is, why a relation such as `T < T_set` creates one, why an ideal
-   thermostat chatters, and write a hysteresis with `when`;
+   `initial equation`, start a model in steady state so that the response to a disturbance is
+   not mixed with an initial transient, and recognise under- and over-specified initialization
+   in the log;
+4. explain what an event is, distinguish time and state events, explain why an `if` does not
+   protect a `sqrt` or a division from invalid arguments, why an ideal thermostat chatters, and
+   write a hysteresis with `when`;
 5. explain stiffness, choose between implicit and explicit solvers, and distinguish solver error
    (tolerance) from model error (number of nodes);
 6. diagnose a failed or wrong simulation with a fixed checklist.
@@ -30,20 +32,54 @@ Sessions 1–3: M01–M03, explicit Euler and its stability limit $h < 2\tau$ fo
 count and numerical diffusion of M03 (Session 2), Modelica equations, connectors and the flat
 model (Session 3). OpenModelica with MSL 4.1.0 installed ([setup](../../SETUP.md)).
 
+**Pre-reading (about 45 min)**, *Modelica by Example* by M. Tiller, free online
+`[src: modelica-by-example]`:
+
+1. [Basic Equations → Initialization](https://mbe.modelica.university/behavior/equations/initialization/):
+   one initial equation per state, and the general form of initial equations;
+2. [Discrete Behavior → Cooling Revisited](https://mbe.modelica.university/behavior/discrete/cooling/):
+   Newton's law of cooling (the structure of M01) with a disturbance at a given time, and a
+   steady-state start;
+3. [Discrete Behavior → State Event Handling](https://mbe.modelica.university/behavior/discrete/decay/):
+   zero-crossing functions, why a guard `if x >= 0` still evaluates `sqrt(x)` for negative `x`,
+   `noEvent`, chattering;
+4. [Discrete Behavior → Hysteresis](https://mbe.modelica.university/behavior/discrete/hysteresis/):
+   the chattering thermostat of exercise G4.1, and its hysteresis.
+
+Optional: [Bouncing Ball](https://mbe.modelica.university/behavior/discrete/bouncing/) (state
+events, `reinit`) and the review page [When](https://mbe.modelica.university/behavior/discrete/when/).
+The book does not cover the solvers, stiffness or the OpenModelica tools: for those this lesson
+follows the OpenModelica User's Guide. Book code written for MSL 3.2.2 needs `Modelica.SIunits`
+renamed to `Modelica.Units.SI` (Session 3).
+
 ## 3. Source map
 
 Summary below; full list of sources in [REFERENCES.md](../../REFERENCES.md).
-Language rules for initialization and events: `[src: modelica-spec-3.7]` (§8.3.5, §8.5, §8.6).
+Main tutorial for initialization and events: *Modelica by Example* `[src: modelica-by-example]`;
+second tutorial: P. Fritzson's OpenModelica tutorial of the 2025 Modelica Conference
+`[src: fritzson-tutorial-2025]` (cited by PDF page). Both are mapped to the lesson in the table
+below. Language rules for initialization and events: `[src: modelica-spec-3.7]` (§8.3.5, §8.5, §8.6).
 OpenModelica workflow, simulation flags, solvers and debugger: `[src: om-users-guide]`, and the
 behaviour of OpenModelica 1.27.1 observed by running it `[src: om-release-1.27]`. Numerical
 integration and stiffness: `[src: cellier-kofman-2006]`. Library components:
 `[src: msl-4.1.0]`. M03 equations: Session 2 lesson §5.2.
 
+| Lesson | *Modelica by Example* (https://mbe.modelica.university/…) | Fritzson tutorial (PDF page) | Specification 3.7 |
+|--------|------------------------------------------------------------|------------------------------|-------------------|
+| §4.1 from model to simulation | `behavior/equations/initialization/` (index reduction, in one paragraph) | 30 (translation), 126 (equation transformations) | §8.6 |
+| §4.2 setup and log | – (OpenModelica User's Guide) | 129, 134 (debugger, chattering) | – |
+| §4.3 initialization | `behavior/equations/initialization/`, `…/first_order/` (steady state) | – | §8.6, §8.6.1 |
+| §4.3 steady start and disturbance | `behavior/discrete/cooling/` | – | §8.6 |
+| §4.4 events | `behavior/discrete/cooling/`, `…/bouncing/`, `…/decay/`, `…/events/` | 164–166, 169 | §8.5 |
+| §4.4 `when`, hysteresis | `behavior/discrete/hysteresis/`, `…/when/` | 166–167 | §8.3.5 |
+| §4.5 stiffness | – (`behavior/arrays/oned/` derives a rod of N lumped nodes like M03, with conduction instead of advection) | – | – |
+
 ## 4. Theory
 
 ### 4.1 From model to simulation
 
-Simulating a model in OMEdit has three phases `[src: om-users-guide]`:
+Simulating a model in OMEdit has three phases `[src: om-users-guide]` (the pipeline from model
+to flat hybrid DAE, sorted equations, C code and executable: `[src: fritzson-tutorial-2025 p. 30]`):
 
 1. **Translation.** The front end *instantiates* the model into a flat list of variables and
    equations (Session 3). The back end analyses its structure and generates C code.
@@ -67,7 +103,8 @@ What the back end does with the flat equations:
   connected without a resistance must have the same temperature, so only one of them can be
   chosen freely. To obtain an ODE the tool may have to differentiate equations (**index
   reduction**) `[src: modelica-spec-3.7 §8.6]`, and it keeps fewer states than there are
-  `der()` operators.
+  `der()` operators. So "every differentiated variable is a state" holds for an ODE, not for
+  every model `[src: modelica-by-example behavior/equations/initialization/]`.
 
 In this course's models the result is an ODE $\dot x = f(x, u, t)$ plus algebraic equations
 evaluated along the way. The default solver integrates that ODE `[src: om-users-guide]`.
@@ -94,7 +131,9 @@ accurate `[src: om-users-guide]`.
 More information is available with runtime flags (`-lv=LOG_STATS` for solver statistics,
 `-lv=LOG_INIT` for initialization, `-lv=LOG_EVENTS` for events) and compiler flags
 (`-d=initialization`) `[src: om-users-guide]`. OMEdit's **transformational debugger** shows the
-equations after each transformation, with the variable each one solves for `[src: om-users-guide]`.
+equations after each transformation, with the variable each one solves for `[src: om-users-guide]`;
+it also points to the equation whose zero crossing causes chattering
+`[src: fritzson-tutorial-2025 pp. 126, 129]`.
 
 ### 4.3 Initialization
 
@@ -108,6 +147,19 @@ unknowns has $2n + m$ unknowns at initialization but only $n + m$ equations, so 
 
 `start` alone (with `fixed = false`, the default for variables) is only a guess for iterative
 solvers `[src: modelica-spec-3.7 §8.6]`.
+
+In general an initial equation is any relation $0 = h(x, \dot x, u, t_0)$ at the start time: a
+value of a state, a value of a derivative, or a mix of both, one per state
+`[src: modelica-by-example behavior/equations/initialization/]`.
+
+**Steady start before a disturbance.** A study of how a building reacts to a cold front, a
+heater failure or a change of set point wants the response to *that* disturbance alone. Started
+at an arbitrary temperature, the model first relaxes towards its equilibrium, and this initial
+transient overlaps the response. Starting with `der(T) = 0` puts the model in equilibrium with
+the inputs at $t_0$, so the response to the disturbance is the only dynamics
+`[src: modelica-by-example behavior/discrete/cooling/]`. `Examples.S04_SteadyStartStep` does
+this for M01 (§5.4 and the figure in §8). The steady state belongs to the inputs at $t_0$: if they
+change at once, the start is no longer an equilibrium.
 
 A tool may treat a non-fixed start value as fixed, or remove a *consistent* redundant initial
 equation, provided it reports a diagnostic `[src: modelica-spec-3.7 §8.6]`. OpenModelica 1.27.1
@@ -126,21 +178,54 @@ integration the solver keeps the value from the last event. When the underlying 
 `T - T_set` crosses zero, the integration is halted, the instant is located (root finding), the
 relation and the equations that depend on it are updated, and the integration restarts
 `[src: modelica-spec-3.7 §8.5]`. This keeps the equations smooth between events, as the
-integrators require. `noEvent(...)` takes the relation literally instead, without an event; use
-it only where both branches are smooth and valid on both sides.
+integrators require: their error control assumes smooth right-hand sides, so a jump inside a step
+would only be found by trial and error, with rejected steps
+`[src: modelica-by-example behavior/discrete/cooling/]`.
 
-**Time events** (`time >= t_stop`) can be scheduled in advance. **State events** (`T < T_set`)
-must be found by root finding.
+**Time and state events.** A condition on `time` alone (`time >= t_step`) can in principle be
+scheduled in advance: a **time event**. A condition on the solution (`T < T_set`, `h < 0` for a
+bouncing ball) must be located by root finding: a **state event**
+`[src: modelica-by-example behavior/discrete/bouncing/]` `[src: fritzson-tutorial-2025 p. 166]`.
+The specification leaves the scheduling of `time >= discrete expression` and
+`time < discrete expression` to the quality of the implementation `[src: modelica-spec-3.7 §8.5]`. OpenModelica 1.27.1 treats the ambient step of
+`Examples.S04_SteadyStartStep` (and the same step written with `>=` or with the MSL `Step` block)
+as a state event: the statistics count 1 state event and 0 time events, and `-lv=LOG_EVENTS`
+reports *state event at time=86400.0000173* (observed). Either way the integrator does not step
+across the change.
+
+**Zero crossings, and why a guard does not protect.** For `a > b` the compiler builds the
+zero-crossing function `a - b`; the integrator watches its sign and, when it changes within a step,
+interpolates to find the root `[src: modelica-by-example behavior/discrete/decay/]`. Until the event
+is located, the equations of the **old branch** are still used, also at points beyond the crossing.
+So `der(x) = if x >= 0 then -sqrt(x) else 0` still evaluates `sqrt` of a negative `x` while the
+event is searched for. OpenModelica 1.27.1 stops this model (the book's `Decay2`) at $t$ = 2.0 s with
+*Argument of sqrt(x) was … should be >= 0* (a tiny negative number, which depends on the
+tolerance), exactly like the unguarded version (observed). `noEvent(...)` takes the relation literally, without an event, and fixes it. Use
+`noEvent` only where the expression is continuous across the switch, as here; the book asks for a
+smooth transition. Hiding a real jump costs the solver work: the
+ambient step of `S04_SteadyStartStep` written with `noEvent` took 127 instead of 92 evaluations,
+with 12 instead of 2 rejected steps (observed). The error was not larger here (8·10⁻⁴ K against 1.4·10⁻³ K): the book warns that the
+effect of `noEvent` on accuracy cannot be predicted. The argument for events is the work, and the
+safety of not stepping across a jump.
 
 A `when` equation is active only at the instant its condition **becomes** true
 `[src: modelica-spec-3.7 §8.3.5]`. Between those instants the variable keeps its previous
 value, `pre(v)`. A **hysteresis** uses this: the heater switches off above $T_{set} + b/2$, on
-below $T_{set} - b/2$, and keeps its state in between.
+below $T_{set} - b/2$, and keeps its state in between. The book writes the same rule with a vector
+of conditions, `when {T > T_set + b/2, T < T_set - b/2} then heaterOn = T < T_set; end when;`,
+which fires when **any** of them becomes true. In general this is not the same as `or`: `when a or
+b` is one condition, which does not fire again while it stays true (for this thermostat both work,
+because the condition is false inside the band)
+`[src: modelica-by-example behavior/discrete/hysteresis/, behavior/discrete/bouncing/]`. Both forms
+gave the same 45 state events and 22 switchings for the G4.1 thermostat (observed).
 
 **Chattering.** With `Q_flow = if T < T_set then Q_max else 0` the zone warms up to $T_{set}$.
 The heater switches off, $T$ falls, the relation is true again at once, and the heater switches
 on. Every step is now an event. Physically the ideal thermostat switches infinitely fast.
-Numerically, the solver crawls forward with tiny steps.
+Numerically, the solver crawls forward with tiny steps. This is the book's *ChatteringControl*
+`[src: modelica-by-example behavior/discrete/hysteresis/]`; chattering also appears without any
+controller, when the solution settles exactly at a switching point
+`[src: modelica-by-example behavior/discrete/decay/]`.
 
 ### 4.5 Stiffness and solver choice
 
@@ -204,19 +289,38 @@ maximum-row-sum norm is $|1 - r| + r$, which is at most 1 only for $r \le 1$: **
 (the Courant condition of upwind advection). For $\tau_n < h < 2\tau_n$ errors are passed down the
 chain of nodes and grow before they decay (derived here; observed below).
 
+### 5.4 Steady start and ambient step of M01
+
+`Examples.S04_SteadyStartStep`: $C$ = 10⁷ J/K, $UA$ = 200 W/K, $\dot Q$ = 4 kW (Session 1),
+$\tau = C/UA$ = 13.9 h; ambient 0 °C, then −10 °C from $t_s$ = 24 h. The steady start
+$\dot T(0) = 0$ gives
+
+$$0 = \dot Q - UA\,(T(0) - T_{amb,1}) \quad\Rightarrow\quad T(0) = T_{amb,1} + \dot Q/UA = 20\ ^\circ\mathrm{C},$$
+
+and after the step the zone relaxes to the new equilibrium $T_{ss,2} = T_{amb,2} + \dot Q/UA$ = 10 °C:
+
+$$T(t) = T_{ss,2} + (T_{ss,1} - T_{ss,2})\,e^{-(t - t_s)/\tau}, \qquad t \ge t_s .$$
+
+The same zone started at $T_0$ = 10 °C is still at
+$20 - 10\,e^{-24/13.9}$ = 18.2 °C when the step comes: its response mixes the initial transient
+with the disturbance. `Validation.SteadyStartStep` compares both with these formulas.
+
 ## 6. Guided example
 
 1. **From equations to code** (notebook §1, OMEdit): M03 with $N$ = 10
    (`Examples.S04_StorageCharging`) has 37 equations, 10 states and no algebraic loop. Then
    `Examples.S04_AlgebraicLoops` (a two-layer wall without heat capacity, and a radiating wall)
    and `Examples.S04_TwoCapacities` (two capacities at one temperature).
-2. **Simulation setup and log**: M03 in OMEdit with different solvers and tolerances; the solver
-   statistics (notebook §2).
+2. **Simulation setup and log**: one simulation of M03 in OMEdit with `-lv=LOG_STATS`; change only
+   the output interval. Solvers and tolerances: notebook §2.
 3. **Initialization**: count the initial equations of M01, M02, M03. In `S04_TwoCapacities`,
    fix the start value of the second capacity as well and read the error.
-4. **Events**: the thermostat with and without hysteresis (figure below). The models themselves
+4. **Steady start and a time-dependent disturbance**: `Examples.S04_SteadyStartStep`. Predict
+   $T(0)$ of the steady start and the temperature at the step of the fixed start (§5.4), then
+   simulate with `-lv=LOG_STATS` and count the events.
+5. **Events**: the thermostat with and without hysteresis (figure below). The models themselves
    are in exercise G4.1.
-5. **Stiffness**: M03 with $N$ = 1 … 50 and four solver settings (notebook §3).
+6. **Stiffness**: M03 with $N$ = 1 … 50 and four solver settings (notebook §3).
 
 ## 7. Executable model/code
 
@@ -235,9 +339,12 @@ run.result["storage.T_out"]
 `backend_info` translates with the compiler flags `-d=backenddaeinfo,dumpLoops`;
 `simulate_variant` compiles a variant with changed parameters (also array sizes such as `N`) and
 returns result and statistics (`-lv=LOG_STATS`). Checks: `EnergyTraining.Validation.StorageVsPython`
-(M03 in Modelica against Python, < 1e-4 K), `python/tests/test_omc.py`.
+(M03 in Modelica against Python, < 1e-4 K), `EnergyTraining.Validation.SteadyStartStep` (§5.4
+against its analytic solution, < 1e-4 K), `python/tests/test_omc.py`.
 
 ## 8. Results
+
+![M01 started in steady state and at 10 °C, ambient step after 24 h](../../figures/generated/s04_steady_start_step.png)
 
 ![Thermostat without and with hysteresis](../../figures/generated/s04_chattering_vs_hysteresis.png)
 
@@ -254,6 +361,10 @@ returns result and statistics (`-lv=LOG_STATS`). Checks: `EnergyTraining.Validat
 - **Statistics.** M03 ($N$ = 10, 3 h, DASSL, tolerance 1e-6): 109 steps, 134 right-hand-side
   evaluations, 16 Jacobians, a few milliseconds of computing time. The 180 output points do
   not force steps.
+- **Steady start.** `S04_SteadyStartStep` starts at 20.0000 °C and stays there until the step;
+  its response is the pure step response of §5.4. The fixed start meets the step at 18.2 °C and
+  never shows it alone. The step costs one event (counted as a state event by OpenModelica
+  1.27.1, §4.4): 70 steps for 72 h with DASSL at tolerance 1e-6.
 - **Events.** The ideal thermostat produced 528 782 state events in 5000 s, and OpenModelica
   reported *Chattering detected around time 4764.8 … The zero-crossing was: T < T_set*. With a
   ±0.5 K hysteresis a whole day needs 45 state events and 22 switchings. Every crossing of a
@@ -282,7 +393,8 @@ A failed or suspicious simulation is a **modelling question first**. Check, in t
 4. **Algebraic loops**: their number and size (`-d=backenddaeinfo`); a division by a variable
    that can become zero.
 5. **Discontinuities and events**: number of state events (`-lv=LOG_STATS`); chattering; a
-   relation that compares with exactly the value a variable jumps to.
+   relation that compares with exactly the value a variable jumps to; an `if` that should guard
+   a `sqrt`, a `log` or a division (it does not: §4.4).
 6. **Stiffness**: explicit solver, or a step size near the stability limit.
 7. **Constraints**: `min`/`max` violations reported as assertions. A temperature below 0 K is
    usually a symptom of the problems above, not their cause.

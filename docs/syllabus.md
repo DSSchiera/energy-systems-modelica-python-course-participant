@@ -72,16 +72,17 @@ algebraic modelling languages). The opening block of Session 1 includes a short 
 
 ## Session 4 — OpenModelica Workflow and Numerical Modelling
 
-**Canonical models:** M03 `Storage` in Modelica; `EnergyTraining.Examples.Broken.*`.
+**Canonical models:** M03 `Storage` in Modelica; M01 with a steady start and a time-dependent disturbance (`Examples.S04_SteadyStartStep`); `EnergyTraining.Examples.Broken.*`. **Main reference** for initialization and events: *Modelica by Example* (pre-reading and reading map in the lesson), with the Fritzson OpenModelica tutorial (2025); solvers and tools: OpenModelica User's Guide.
 
 | min | Type | Content |
 |-----|------|---------|
 | 0–5 | D | Recap |
 | 5–25 | T | From model to simulation: flattening, structural analysis (matching, BLT), index, algebraic loops and tearing; what ends up as ODE / DAE |
-| 25–40 | G | OMEdit workflow: simulation setup, solver, tolerance, output interval; reading the simulation log; instantiate and check model |
-| 40–60 | T/G | Initialization: `start`/`fixed`, `initial equation`, steady-state initialization; over/under-determined initial systems (demo: two directly connected capacities; the Broken examples are diagnosed in G4.1) |
+| 25–33 | G | OMEdit workflow, short: one simulation of M03 with `-lv=LOG_STATS`; reading the log; output interval ≠ accuracy (solver and tolerance changes: notebook §2, at home) |
+| 33–50 | T/G | Initialization: one initial equation per state, `start`/`fixed`, `initial equation`; over/under-determined initial systems (demo: two directly connected capacities; the Broken examples are diagnosed in G4.1) |
+| 50–60 | G | Steady start and a disturbance at a given time: M01 started with `der(T) = 0`, ambient step after 24 h, against a fixed start (`S04_SteadyStartStep`); the step as an event |
 | 60–70 | — | Break |
-| 70–90 | T/G | Events and discontinuities: `if`, `when`, zero crossings, `noEvent`; thermostat chattering vs hysteresis (figure; the Broken model is diagnosed in G4.1) |
+| 70–90 | T/G | Events and discontinuities: time and state events, zero crossings, why an `if` does not guard `sqrt`, `noEvent`; `when`, `pre`; thermostat chattering vs hysteresis (figure; the Broken model is diagnosed in G4.1) |
 | 90–105 | T/G | Stiffness and solver choice: M03 with N = 1 … 50; DASSL/IDA vs explicit Euler; tolerances; CPU time vs accuracy |
 | 105–135 | E | G4.1 diagnose and fix three broken models from their logs; I4.1 convergence study on M03 |
 | 135–140 | D | Debugging checklist |
