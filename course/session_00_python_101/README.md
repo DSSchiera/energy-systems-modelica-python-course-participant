@@ -2,7 +2,7 @@
 
 A 150-min contact session before Session 1, extra to the 20 core hours. Install the
 environment before the session (guide §2).
-Timetable: [docs/syllabus.md](../../docs/syllabus.md#session-0--python-101).
+Syllabus: [docs/syllabus.md](../../docs/syllabus.md#session-0--python-101).
 
 | File | Content |
 |------|---------|

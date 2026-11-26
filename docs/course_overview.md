@@ -1,9 +1,7 @@
 # Course overview
 
 **Title:** Dynamic Modelling, Modelica and Techno-Economic Optimization of Energy Systems
-**Format:** individual advanced training, 20 h = 8 sessions × 2.5 h, plus a 2.5-h Python 101
-(Session 0) extra to the 20 h: 22.5 contact hours
-**Participant:** researcher with an engineering/technical background, new to Modelica
+**Format:** 20 h = 8 sessions × 2.5 h, plus a 2.5-h Python 101 (Session 0): 22.5 contact hours
 
 ## Aim
 

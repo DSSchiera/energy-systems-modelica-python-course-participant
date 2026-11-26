@@ -1,6 +1,6 @@
 # Session 2 — Energy Systems Modelling Fundamentals
 
-**Canonical models:** M02 `ZoneRC`, M03 `Storage` · **Duration:** 150 min ([timetable](../../docs/syllabus.md#session-2--energy-systems-modelling-fundamentals)) ·
+**Canonical models:** M02 `ZoneRC`, M03 `Storage` · **Duration:** 150 min ([syllabus](../../docs/syllabus.md#session-2--energy-systems-modelling-fundamentals)) ·
 **Sources:** [source map](../../REFERENCES.md) · **Code:** `energy_training.simulation.zone_rc`,
 `storage`, `heat_exchanger` · **Notebook:** `python/notebooks/s02_rc_and_storage.ipynb`
 

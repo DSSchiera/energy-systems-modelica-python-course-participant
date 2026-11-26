@@ -1,6 +1,6 @@
 # Session 4 — OpenModelica Workflow and Numerical Modelling
 
-Timetable: [docs/syllabus.md](../../docs/syllabus.md#session-4--openmodelica-workflow-and-numerical-modelling).
+Syllabus: [docs/syllabus.md](../../docs/syllabus.md#session-4--openmodelica-workflow-and-numerical-modelling).
 
 | Artifact | Location |
 |----------|----------|

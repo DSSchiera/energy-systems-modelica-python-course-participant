@@ -1,8 +1,7 @@
 # Prerequisites
 
-The participant is an engineering/technical researcher. The course assumes the items in
-**Required**; items in **Refresher provided** are briefly revisited in the course or in a
-pre-reading note, because they are likely gaps for this audience.
+The course assumes the items in **Required**; items in **Refresher provided** are briefly
+revisited in the course or in a pre-reading note.
 
 ## Required
 

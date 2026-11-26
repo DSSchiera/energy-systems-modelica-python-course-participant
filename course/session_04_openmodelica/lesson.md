@@ -1,7 +1,7 @@
 # Session 4 — OpenModelica Workflow and Numerical Modelling
 
 **Canonical models:** M03 `StorageSystem` in Modelica; `EnergyTraining.Examples.Broken.*` ·
-**Duration:** 150 min ([timetable](../../docs/syllabus.md#session-4--openmodelica-workflow-and-numerical-modelling)) ·
+**Duration:** 150 min ([syllabus](../../docs/syllabus.md#session-4--openmodelica-workflow-and-numerical-modelling)) ·
 **Sources:** [source map](../../REFERENCES.md) · **Code:** `modelica/EnergyTraining`
 (`Components.StorageTank`, `Systems.StorageSystem`, `Examples.S04_*`, `Examples.Broken`),
 `energy_training.omc` (`runner`, `results`, `studies`) · **Notebook:**

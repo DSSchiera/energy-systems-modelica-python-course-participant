@@ -1,6 +1,6 @@
 # Session 1 — Dynamic Systems Modelling Fundamentals
 
-**Canonical model:** M01 `ThermalZone` · **Duration:** 150 min ([timetable](../../docs/syllabus.md#session-1--dynamic-systems-modelling-fundamentals)) ·
+**Canonical model:** M01 `ThermalZone` · **Duration:** 150 min ([syllabus](../../docs/syllabus.md#session-1--dynamic-systems-modelling-fundamentals)) ·
 **Sources:** [source map](../../REFERENCES.md) · **Code:** `energy_training.simulation.thermal_zone`,
 `energy_training.simulation.integrators` · **Notebook:** `python/notebooks/s01_thermal_zone.ipynb`
 

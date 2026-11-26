@@ -1,6 +1,6 @@
 # Session 3 — Modelica Fundamentals
 
-**Canonical models:** M01 `ThermalZone`, M02 `ZoneRC` in Modelica · **Duration:** 150 min ([timetable](../../docs/syllabus.md#session-3--modelica-fundamentals)) ·
+**Canonical models:** M01 `ThermalZone`, M02 `ZoneRC` in Modelica · **Duration:** 150 min ([syllabus](../../docs/syllabus.md#session-3--modelica-fundamentals)) ·
 **Sources:** [source map](../../REFERENCES.md) · **Code:** `modelica/EnergyTraining` (`Interfaces`,
 `Components`, `Systems.ThermalZone`, `Systems.ZoneRC`, `Examples.S03_*`),
 `energy_training.omc` · **Notebook:** `python/notebooks/s03_python_vs_modelica.ipynb`
