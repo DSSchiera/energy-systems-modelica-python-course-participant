@@ -55,19 +55,20 @@ algebraic modelling languages). The opening block of Session 1 includes a short 
 
 ## Session 3 — Modelica Fundamentals
 
-**Canonical models:** M01 and M02 re-implemented in Modelica (teaching components + MSL).
+**Canonical models:** M01 and M02 re-implemented in Modelica (teaching components + MSL). **Main reference:** *Modelica by Example* (pre-reading and section-by-section reading map in the lesson), with the Fritzson OpenModelica tutorial (2025).
 
 | min | Type | Content |
 |-----|------|---------|
 | 0–5 | D | Recap; install check (OMEdit opens, MSL 4.1.0 loads) |
-| 5–25 | T | Equation-based vs assignment-based modelling; acausal vs causal; what the compiler must do (sort, solve) |
-| 25–45 | G | M01 as a single `model` with `parameter`, `Real`, `der()`, `initial equation`; simulate; compare with Session 1 Python result (same numbers) |
-| 45–60 | T/G | Connectors: potential and flow variables; write a teaching `HeatPort`; components `ThermalMass`, `ThermalConductance`, `FixedTemperature`, `HeatSource`; compose M01 by connecting |
+| 5–20 | T | Equation-based vs assignment-based modelling ($R\,i = v$ used three ways); acausal vs causal; what the compiler must do (flatten, sort, solve) |
+| 20–42 | G | M01 as a single `model`, step by step as in *Modelica by Example* (Getting Physical): `parameter`, SI types and units (`checkModel` finds a unit error), `der()`, `initial equation`, `experiment`; compare with Session 1 Python result (same numbers) |
+| 42–60 | T/G | Connectors: across and through variables, domain table; teaching `HeatPort`, `ThermalMass`, `ThermalConductance`, `FixedTemperature`, `HeatSource`; compose M01; connection sets and the count of unknowns and equations (balanced model) |
 | 60–70 | — | Break |
-| 70–85 | G | Replace teaching components with MSL `Modelica.Thermal.HeatTransfer` equivalents; read their source; packages and `within` |
-| 85–105 | T/G | Object orientation: `partial`, `extends`, `replaceable`/`redeclare` (swap a loss model); build M02 by composition |
-| 105–135 | E | G3.1 build M02 from components and match Python M02; I3.1 write simplified PV and battery components (`RealInput`/`RealOutput`, state of charge; limits come after S4), a language exercise; Session 5 uses the Buildings library versions |
-| 135–140 | D | Python causal vs Modelica acausal: side-by-side comparison table |
+| 70–78 | G | MSL `Modelica.Thermal.HeatTransfer`: `HeatCapacitor` source next to `ThermalMass`; packages, `within`, `import` |
+| 78–98 | T/G | Modifications, `final` and propagation, `each`; `partial`, `extends`, `replaceable`/`redeclare` (swap a loss model); build M02 by composition |
+| 98–106 | T/G | Three formulations of M01 — equation, components, block diagram (`S03_ThermalZoneBlocks`); which one when; Python vs Modelica table |
+| 106–136 | E | G3.1 build M02 from components and match Python M02; I3.1 write simplified PV and battery components (`RealInput`/`RealOutput`, state of charge; limits come after S4), a language exercise; Session 5 uses the Buildings library versions |
+| 136–140 | D | Key takeaways; bridge to Session 4 |
 
 ## Session 4 — OpenModelica Workflow and Numerical Modelling
 

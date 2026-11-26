@@ -10,6 +10,7 @@ Sources cited in the course material as `[src: id]`.
 - **`duffie-beckman-2013`** · John A. Duffie, William A. Beckman · *Solar Engineering of Thermal Processes (4th ed.)* · 2013 · ISBN 9780470873663
 - **`fmpy`** · Dassault Systèmes (CATIA-Systems) · *FMPy documentation* · version 0.3.32 · <https://fmpy.readthedocs.io/en/latest/>
 - **`fritzson-2014`** · Peter Fritzson · *Principles of Object-Oriented Modeling and Simulation with Modelica 3.3 (2nd ed.)* · 2014 · ISBN 9781118859124
+- **`fritzson-tutorial-2025`** · Peter Fritzson · *Introduction to Object-Oriented Modeling and Simulation with Modelica and OpenModelica (tutorial slides)* · 2025 · <https://openmodelica.org/images/M_images/250908-ModelicaTutorial-PeterFritzson-2025.pdf>
 - **`incropera`** · Frank P. Incropera, David P. DeWitt, Theodore L. Bergman, Adrienne S. Lavine · *Fundamentals of Heat and Mass Transfer* · 2011 · ISBN 9780470501979
 - **`jupyterlab-docs`** · Project Jupyter · *JupyterLab documentation* · version 4.6 · <https://jupyterlab.readthedocs.io/en/4.6.x/>
 - **`linopy-docs`** · PyPSA developers · *linopy documentation* · <https://linopy.readthedocs.io/en/latest/>

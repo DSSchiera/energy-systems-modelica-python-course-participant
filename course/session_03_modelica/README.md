@@ -2,7 +2,7 @@
 
 | Artifact | Location |
 |----------|----------|
-| Lesson (canonical) | [lesson.md](lesson.md) |
+| Lesson (canonical) | [lesson.md](lesson.md) — follows *Modelica by Example*; reading map in §2–§3 |
 | Common errors | [common_errors.md](common_errors.md) |
 | Optional topics | [optional_topics.md](optional_topics.md) |
 | Modelica | `modelica/EnergyTraining/{Interfaces,Components,Systems}`, `Examples/S03_*`, `Validation/{ThermalZoneForms,ZoneRCvsPython}` |
