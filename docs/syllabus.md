@@ -1,6 +1,6 @@
 # Syllabus and detailed timetable
 
-Budget: 8 × 150 min. Each timetable is planned for 140 min (130 min contact + one 10-min break),
+Budget: 9 × 150 min — Session 0 plus the 8 core sessions (20 h); Session 0 is extra to the core 20 h. Each timetable is planned for 140 min (130 min contact + one 10-min break),
 leaving a **10-min buffer** per session for overruns, installation issues and questions.
 Targets: theory 25–30 %, guided modelling 40–50 %, exercises/discussion 20–30 %.
 
@@ -9,15 +9,26 @@ Legend: **T** theory · **G** guided modelling (instructor-led, participant foll
 
 ---
 
-## Pre-course module — Python 101 (self-paced, outside the 20 h)
+## Session 0 — Python 101
 
-About 4–6 h of self-study before Session 1: a guide in `course/session_00_python_101/` and the
-notebook `python/notebooks/s00_python_101.ipynb`. Content:
-install the environment (uv, VS Code, Jupyter) and run the course tests (`uv run pytest`); the Python subset used
-in the course (types, functions, dataclasses, modules, the course package); NumPy arrays;
-pandas time series (read, resample, plot the Turin weather data; demand profiles follow in Session 6); Matplotlib; SciPy; notebooks
-vs scripts; a map of the ecosystem used later (FMPy, OMPython, `scipy.optimize`, CasADi,
-algebraic modelling languages). The opening block of Session 1 includes a short check.
+**Contact session, extra to the 20 h core.**
+**Canonical material:** the guide in `course/session_00_python_101/`, the notebook
+`python/notebooks/s00_python_101.ipynb` and exercise S0.1, on the Turin weather data.
+Before the session the participant installs the environment ([SETUP.md](../SETUP.md) up to "open the notebooks", about 30–45 min, mostly downloads).
+
+| min | Type | Content |
+|-----|------|---------|
+| 0–10 | D | Course map and the case-study building; why Python next to Modelica; roadmap of the nine sessions |
+| 10–20 | G | Environment check: `uv sync`, `uv run pytest`, open the notebook with the `.venv` kernel (notebook §0); what uv, `pyproject.toml` and `uv.lock` are; the course package `energy_training` |
+| 20–30 | T/G | Notebooks and scripts; kernel, *Restart* + *Run All*; reusable code lives in the package |
+| 30–50 | G | The Python subset: numbers, f-strings, lists and dicts, functions with keyword arguments, frozen dataclasses, imports (notebook §1) |
+| 50–60 | G | NumPy: arrays, vectorised arithmetic, masks, copies vs views, float comparison (notebook §2) |
+| 60–70 | — | Break |
+| 70–90 | G | pandas time series on the Turin typical year: read, check the time stamps, select by time, resample and group, time zones (notebook §3) |
+| 90–100 | G | Matplotlib, the course plotting pattern; units: compute in SI, display in °C and kWh (notebook §4) |
+| 100–110 | G | SciPy: fit of the annual temperature cycle; a first steady-state estimate of the house's heat demand (notebook §5–§6) |
+| 110–135 | E | S0.1 Python self-check: daily and monthly statistics, plot, `uv run pytest` |
+| 135–140 | D | Takeaways; tools met later (FMPy, `scipy.optimize`, CasADi; guide §8, reading); bridge to Session 1 |
 
 ---
 
@@ -27,7 +38,7 @@ algebraic modelling languages). The opening block of Session 1 includes a short 
 
 | min | Type | Content |
 |-----|------|---------|
-| 0–10 | D | Course map and the case-study building; the conceptual workflow; short check of the Session 0 set-up |
+| 0–10 | D | Course map and the case-study building; the conceptual workflow; recap of Session 0 (S0.1 result; environment works) |
 | 10–30 | T | Static vs dynamic systems; states, inputs, outputs, parameters; lumped modelling and its validity (Biot number as a rule of thumb) |
 | 30–50 | T | Derive M01: $C\,\dot T = \dot Q - UA\,(T - T_{amb})$. Equilibrium $T_{ss} = T_{amb} + \dot Q/UA$, time constant $\tau = C/UA$, analytic step response |
 | 50–60 | G | Python: right-hand-side function, explicit Euler written by hand |

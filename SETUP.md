@@ -8,6 +8,7 @@ them.
 |----------|---------|-----------|
 | uv (Python and package manager) | current release | Session 1 |
 | Python | 3.12 (installed by uv) | Session 1 |
+| JupyterLab (notebooks and Python files) | 4.6 (installed by uv) | Session 0 |
 | OpenModelica with OMEdit | 1.27.1 | Session 3 (install it now anyway) |
 | Modelica Standard Library | 4.1.0 | Session 3 |
 | Modelica Buildings Library | 14.0.0 | Session 5 |
@@ -41,16 +42,41 @@ uv run pytest
 `uv sync` downloads Python 3.12 and the exact package versions in `uv.lock` into a local `.venv`
 folder. `uv run pytest` must end with a line like `NN passed`.
 
-## 4. Open the notebooks
+## 4. Open the notebooks in JupyterLab
 
-Either:
+**JupyterLab** is the course interface for Python and notebooks. `uv sync` (step 3) has already
+installed it in `.venv`; nothing else to install. Check it:
 
-- **JupyterLab:** `uv run jupyter lab`, then open `python/notebooks/s00_python_101.ipynb`; or
-- **VS Code** with the *Python* and *Jupyter* extensions: open the course folder, open the
-  notebook and select the kernel from `.venv`.
+```powershell
+uv run jupyter lab --version
+```
 
-Run all cells once: they must complete without errors. The Session 0 guide
-(`course/session_00_python_101/guide.md`) explains notebooks and the environment in more detail.
+It prints the version (4.6.x). Then:
+
+1. In PowerShell, inside the course folder, start it:
+
+   ```powershell
+   uv run jupyter lab
+   ```
+
+   Your web browser opens a tab with JupyterLab (address `http://localhost:8888/lab...`). If no
+   tab opens, copy into the browser the address starting with `http://localhost` that PowerShell
+   prints. Leave the PowerShell window open while you work: it is running JupyterLab.
+2. In the **file browser** on the left (folder icon), double-click `python`, `notebooks`, then
+   `s00_python_101.ipynb`.
+3. Top right of the notebook you should read **Python 3 (ipykernel)**: this is the course
+   environment, because JupyterLab was started with `uv run` from the course folder.
+4. Menu **Kernel → Restart Kernel and Run All Cells…**, confirm with *Restart*. All cells must
+   complete without errors (the first one prints the package versions).
+5. To stop: save (**File → Save Notebook**, or Ctrl+S; Cmd+S on macOS), then **File → Shut Down**, or press
+   Ctrl+C twice in the PowerShell window.
+
+Start JupyterLab like this every time you work on the course. The Session 0 guide
+(`course/session_00_python_101/guide.md`, §3) explains how to work in it.
+
+*Alternative, optional:* VS Code with the *Python* and *Jupyter* extensions; open the course
+folder, open the notebook and select the kernel from `.venv`. The course instructions use
+JupyterLab.
 
 ## 5. Install OpenModelica (needed from Session 3)
 
@@ -75,9 +101,11 @@ The Buildings library is installed in Session 5; the instructions will be given 
 
 Note the exact error message and the step where it appeared, and bring it to the next session.
 First things to check: PowerShell was reopened after installing uv; the course folder path has no
-spaces or non-ASCII characters.
+spaces or non-ASCII characters; JupyterLab was started with `uv run jupyter lab` from inside the
+course folder.
 
 <!-- Provenance (development repository): uv commands from uv-docs (checked 2026-11-18);
      OpenModelica 1.27.1 for Windows from om-download-windows; OMEdit menu paths from
-     om-users-guide, OMEdit chapter (checked 2026-11-18). Steps to be confirmed in the Windows
-     dry run. -->
+     om-users-guide, OMEdit chapter (checked 2026-11-18). JupyterLab menu names and the Ctrl+C
+     message checked in JupyterLab 4.6.6 on macOS (2026-11-26; jupyterlab-docs).
+     Steps to be confirmed in the Windows dry run. -->

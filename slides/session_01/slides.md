@@ -28,6 +28,10 @@ Today: the first five steps, in **Python**
 - S6 — FMU and Python: scenarios (M06)
 - S7–S8 — costs, then optimal sizes and operation
 
+# The model family M01–M08
+
+![](../../figures/generated/course_model_lineage.png)
+
 # The case study: one house
 
 - Single-family house in Turin

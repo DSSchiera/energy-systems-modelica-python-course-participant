@@ -1,11 +1,11 @@
 # Dynamic Modelling, Modelica and Techno-Economic Optimization of Energy Systems
 
-Participant material for the 20-hour course (8 sessions × 2.5 h).
+Participant material for the course: 8 sessions × 2.5 h (20 h), plus Session 0, Python 101 (2.5 h).
 Sessions are added here as the course progresses; see `EXPORT_INFO.md` for what is released.
 
-**Start here:** install the software with [SETUP.md](SETUP.md), then work through the
-self-paced Session 0 (Python 101): [course/session_00_python_101/guide.md](course/session_00_python_101/guide.md).
-Both before Session 1.
+**Start here:** install the software with [SETUP.md](SETUP.md) before Session 0 (Python 101).
+The Session 0 guide, [course/session_00_python_101/guide.md](course/session_00_python_101/guide.md),
+is the reference for the session and for review.
 
 ## Contents
 

@@ -6,25 +6,9 @@ thermal storage tank, rooftop PV, a battery and the grid. Each session adds one 
 Sessions 7–8 ask which sizes and which operation minimise the total cost.
 Each model **reuses** its predecessor; none is created only because a lesson "needs code".
 
-```
-          S1/S3            S2/S3            S2/S4
-M01 ThermalZone ──► M02 ZoneRC ──► M03 StorageSystem          S3: PV, Battery components
- (1 state)          (2R2C)          (N-node tank)                      │
-                       │                 │                             │
-                       │      S5         │                             │
-                       │  M04 HydronicLoop (Buildings: pump, pipe, load)   ← fluid-domain view
-                       │                 │                             │
-                       └──────┬──────────┴─────────────────────────────┘
-                              ▼   S5
-                     M05 BuildingEnergySystem (HP → tank → zone + hot water; PV, battery, grid;
-                              │                 rule-based operation)
-                              ▼   S6
-                     M06 BuildingEnergySystemFMU (top-level inputs/outputs, sizes as parameters)
-                              ▼   S7
-                     M07 techno-economic assessment (costs, NPV, LCOE/LCOH, scenarios, sweeps)
-                              ▼   S8
-     M08a dispatch (LP/MILP, linear surrogate, replayed on M06) · M08b sizing (MILP; vs S7 sweep)
-```
+![Canonical model family M01–M08: which model is reused by which, and in which sessions](../figures/generated/course_model_lineage.png)
+
+*Arrows mean "is reused by" (column* Reuses *in the table below); the blue labels are the sessions that use each model.*
 
 ## Models
 

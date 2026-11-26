@@ -1,5 +1,7 @@
 """Smoke tests: the package imports and the utilities behave."""
 
+import importlib.util
+
 import numpy as np
 
 import energy_training
@@ -19,3 +21,9 @@ def test_temperature_roundtrip():
 def test_repo_root():
     assert (repo_root() / "pyproject.toml").is_file()
     assert (repo_root() / "python/src/energy_training/__init__.py").is_file()
+
+
+def test_notebook_interface_installed():
+    """`uv sync` installs JupyterLab and the kernel, the course notebook interface."""
+    for module in ("jupyterlab", "ipykernel"):
+        assert importlib.util.find_spec(module) is not None, f"{module} missing: run `uv sync`"

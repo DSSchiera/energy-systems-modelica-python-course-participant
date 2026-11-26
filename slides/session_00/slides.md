@@ -5,10 +5,10 @@ subtitle: "Dynamic Modelling, Modelica and Techno-Economic Optimization of Energ
 
 # What Session 0 is
 
-- **Self-paced**, before Session 1: about **4–6 h**, outside the 20 contact hours
-- A guide, a notebook on the Turin weather, a self-check exercise (S0.1)
-- Already use Python with NumPy, pandas and Jupyter every week? Do only the install, the course package and the self-check (**about 1 h**)
-- Session 1 opens with a **10-minute check**
+- A **2.5-h session**, extra to the 20 core hours
+- We follow the **notebook** on the Turin weather together; the **guide** is the reference
+- At the end: the self-check exercise **S0.1**
+- After the session, the guide is there to review at your own pace
 
 # Objectives
 
@@ -37,7 +37,7 @@ subtitle: "Dynamic Modelling, Modelica and Techno-Economic Optimization of Energ
 
 # Roadmap
 
-- **S0 — Python 101** ← self-paced, now
+- **S0 — Python 101** ← today
 - S1–S2 — dynamic models in Python (zone, storage)
 - S3–S5 — the same models and the system in Modelica
 - S6 — the model as an FMU, scenarios from Python
@@ -70,10 +70,19 @@ subtitle: "Dynamic Modelling, Modelica and Techno-Economic Optimization of Energ
 # Notebooks and scripts
 
 - **Notebook** (`.ipynb`): text, code and results together — to explore and explain
-  - JupyterLab: `uv run jupyter lab`
-  - VS Code with the *Jupyter* extension, kernel from `.venv`
+  - opened in **JupyterLab**, the course interface: `uv run jupyter lab`
 - **Script** (`.py`): runs top to bottom — for exercises, figures, tests
   - `uv run python exercises/session_00/s00_self_check.py`
+  - edit it in JupyterLab, run it from a JupyterLab terminal
+
+# Working in JupyterLab
+
+- Start from the course folder: `uv run jupyter lab`; keep the terminal open
+- Kernel top right: **Python 3 (ipykernel)** = the course `.venv`
+- File browser (left) → `python/notebooks/`; launcher → new terminal
+- **Shift+Enter** run cell · **Esc** / **Enter** command / edit mode · **A** / **B** new cell
+- **Kernel → Restart Kernel and Run All Cells…** before trusting a result
+- Stop: **File → Shut Down** (closing the tab is not enough)
 
 # Notebook rules
 
@@ -169,18 +178,18 @@ $$\dot Q = UA\,(T_{set} - T_{amb}) \quad \text{when } T_{amb} < T_{set}$$
 - **CasADi** (optional extra), Pyomo, linopy: mentioned for larger problems
 - Nothing to install now
 
-# Self-check before Session 1
+# Self-check: exercise S0.1
 
 1. The notebook `s00_python_101.ipynb` runs with **Restart + Run All**
 2. Exercise **S0.1**: daily and monthly statistics of the Turin weather, a plot
 3. `uv run pytest` ends with **passed**
 
-- Something fails? Note the exact error and the step; bring it to Session 1
+- Not finished in class? Complete it at home; note any error and the step, bring it to Session 1
 
 # Common problems
 
 - `uv` not recognised → reopen the terminal
-- No `energy_training` in a notebook → `.venv` kernel, or `uv run jupyter lab`
+- No `energy_training` in a notebook → restart JupyterLab with `uv run jupyter lab` in the course folder
 - The same error in a script → `uv run python`
 - `FileNotFoundError` → run from the course folder
 - Numbers slightly different → `uv sync`, no upgrades

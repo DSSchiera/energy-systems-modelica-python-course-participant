@@ -21,16 +21,24 @@ casadi = ["casadi>=3.7"]
 omc = ["OMPython>=4.0"]
 
 [dependency-groups]
+# Notebook interface for instructors and participants: JupyterLab is the main IDE.
+# Installed by a plain `uv sync` (see [tool.uv] default-groups below).
+notebooks = [
+    "jupyterlab>=4.6",
+    "ipykernel>=6.29",
+]
 dev = [
     "pytest>=8.3",
     "ruff>=0.12",
-    "jupyter>=1.1",
     "nbclient>=0.10",
     "nbformat>=5.10",
-    "ipykernel>=6.29",
     "pyyaml>=6.0.3",
     "jsonschema>=4.26.0",
 ]
+
+[tool.uv]
+# `uv sync` and `uv run` install both groups unless told otherwise (uv-docs, dependency groups).
+default-groups = ["dev", "notebooks"]
 
 [build-system]
 requires = ["hatchling>=1.27"]

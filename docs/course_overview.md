@@ -1,8 +1,8 @@
 # Course overview
 
 **Title:** Dynamic Modelling, Modelica and Techno-Economic Optimization of Energy Systems
-**Format:** individual advanced training, 20 h = 8 sessions × 2.5 h, plus a self-paced Python 101
-(Session 0)
+**Format:** individual advanced training, 20 h = 8 sessions × 2.5 h, plus a 2.5-h Python 101
+(Session 0) extra to the 20 h: 22.5 contact hours
 **Participant:** researcher with an engineering/technical background, new to Modelica
 
 ## Aim
@@ -50,7 +50,7 @@ robust is the answer?* See [model_lineage.md](model_lineage.md).
 
 | # | Session | Core question |
 |---|---------|---------------|
-| 0 | Python 101 (self-paced) | How do I set up and use Python, notebooks and data for this course? |
+| 0 | Python 101 (extra 2.5 h) | How do I set up and use Python, notebooks and data for this course? |
 | 1 | Dynamic systems modelling | What is a state, and how does a thermal mass respond? |
 | 2 | Energy systems modelling | How do conservation laws produce RC networks and storage models? |
 | 3 | Modelica fundamentals | How does acausal, equation-based modelling express the same physics? |

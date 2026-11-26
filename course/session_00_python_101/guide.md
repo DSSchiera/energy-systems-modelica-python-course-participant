@@ -1,13 +1,15 @@
-# Session 0 — Python 101 for the course (self-paced guide)
+# Session 0 — Python 101 for the course (guide)
 
-Do this before Session 1. It takes about 4–6 hours and is not part of the 20 contact hours.
-If you already use Python with NumPy, pandas and Jupyter every week, do only §2 (install),
-§7 (the course package) and the self-check in §9 (about 1 hour).
+Session 0 is a 2.5-h contact session, extra to the 20 core hours. This guide is its reference:
+in class the notebook is followed step by step and exercise S0.1 is done at the end.
+**Before the session**, do §2 (install the environment, about 30–45 min, mostly downloads).
+After the session, use the guide to review; the table below gives the self-study time of each
+part if you go through it again on your own (about 4–6 h in all).
 
-| Step | What | Time |
+| Step | What | Self-study time |
 |------|------|------|
 | §1–§2 | why Python here; install the environment | 45 min |
-| §3 | notebooks and scripts | 20 min |
+| §3 | notebooks and scripts; working in JupyterLab | 30 min |
 | §4–§6 | the language subset, the libraries, units | 2–3 h with the notebook |
 | §7 | the course package and its tests | 20 min |
 | §8 | the tools used later in the course (read only) | 15 min |
@@ -39,6 +41,7 @@ What these pieces are `[src: uv-docs]`:
 | `.python-version` | the Python version of the project (3.12) |
 | `uv.lock` | the **exact** version of every package; written by uv, never edited by hand |
 | `.venv/` | the environment itself (a folder in the course directory) |
+| **JupyterLab** | the course interface for notebooks and Python files; installed in `.venv` by `uv sync` |
 
 The commands you need:
 
@@ -60,12 +63,63 @@ You do not need to "activate" the environment if you always start commands with 
 The course uses both.
 
 - A **notebook** (`.ipynb`) mixes text, code and results. It is for exploring and explaining:
-  every session has one in `python/notebooks/`. Open it with **JupyterLab** (`uv run jupyter
-  lab`) `[src: jupyterlab-docs]` or with **VS Code** and its *Jupyter* extension; in VS Code
-  choose the course environment (`.venv`) with the kernel picker at the top right of the
-  notebook, or with the command *Notebook: Select Notebook Kernel* `[src: vscode-jupyter]`.
+  every session has one in `python/notebooks/`. The course opens notebooks with **JupyterLab**
+  (§3.1) `[src: jupyterlab-docs]`.
 - A **script** (`.py`) runs from top to bottom: `uv run python exercises/session_00/s00_self_check.py`.
-  It is for code that must give the same result every time: exercises, figures, tests.
+  It is for code that must give the same result every time: exercises, figures, tests. You can
+  read and edit scripts in JupyterLab too, and run them from its terminal.
+
+### 3.1 Working in JupyterLab
+
+JupyterLab runs in your web browser, but everything stays on your computer: the files are the
+ones in the course folder, and the code runs in the course environment `.venv`.
+
+**Start.** Open a terminal (PowerShell on Windows) in the course folder and type
+`uv run jupyter lab`. A browser tab opens on `http://localhost:8888/lab`. Keep the terminal open:
+closing it stops JupyterLab. Always start it this way, from the course folder: then the notebook
+kernel, shown top right as **Python 3 (ipykernel)**, is the course environment and
+`import energy_training` works.
+
+**The screen.**
+
+| Part | Where | What for |
+|------|-------|----------|
+| file browser | left side bar, folder icon | open notebooks (`python/notebooks/`), exercises, scripts, data; right-click for new file, rename, download |
+| main area | centre, with tabs | notebooks, text and Python editors, terminals; drag a tab to see two side by side |
+| launcher | **+** next to the tabs, or *File → New Launcher* | new notebook, Python file, Markdown file or **terminal** |
+| kernel status | top right of a notebook, and the status bar at the bottom | *Python 3 (ipykernel)*; *Idle* or *Busy* |
+| table of contents | left side bar, list icon | jump between the sections of a long notebook |
+
+**A cell is in one of two modes** (the blue bar on its left shows the selected cell): *edit mode*
+(you type in the cell; press Enter on a selected cell) and *command mode* (keys act on whole cells;
+press Esc).
+
+| Action | Key | Menu |
+|--------|-----|------|
+| run the cell and go to the next one | Shift+Enter | *Run → Run Selected Cell* |
+| run the cell and stay on it | Ctrl+Enter (Cmd+Enter on macOS) | *Run → Run Selected Cell and Do not Advance* |
+| new cell above / below (command mode) | A / B | **+** in the notebook toolbar (below) |
+| make the cell Markdown / code (command mode) | M / Y | cell-type list in the notebook toolbar |
+| delete the cell (command mode) | D, D | *Edit → Delete Cell* |
+| undo a cell operation (command mode) | Z | *Edit → Undo Cell Operation* |
+| interrupt a cell that hangs | I, I | *Kernel → Interrupt Kernel* |
+| restart the kernel | 0, 0 | *Kernel → Restart Kernel…* |
+| **restart and run everything** | — | ***Kernel → Restart Kernel and Run All Cells…*** |
+| save | Ctrl+S (Cmd+S on macOS) | *File → Save Notebook* |
+
+**Scripts and tests inside JupyterLab.** Open a terminal from the launcher. It starts in the
+folder shown in the file browser: go back to the course folder first (`cd` there, or click the
+folder icon at the start of the file-browser path before opening the terminal). Then use the same
+commands as in §2: `uv run python exercises/session_00/s00_self_check.py`, `uv run pytest`.
+Double-click a `.py` file in the file browser to edit it.
+
+**Stop.** Save, then *File → Shut Down*; or press Ctrl+C twice in the terminal that started
+JupyterLab. Closing only the browser tab leaves JupyterLab and its kernels running.
+
+> **Alternative, optional:** VS Code with the *Jupyter* extension also opens the notebooks;
+> choose the course environment (`.venv`) with the kernel picker at the top right of the notebook,
+> or with *Notebook: Select Notebook Kernel* `[src: vscode-jupyter]`. The course instructions use
+> JupyterLab.
 
 Notebook rules used in the course:
 
@@ -75,7 +129,7 @@ Notebook rules used in the course:
 2. Reusable code does not live in notebooks: it lives in the course package (§7), and notebooks
    import it.
 3. If a cell seems to hang, *Interrupt* the kernel; if variables are in a strange state,
-   *Restart* it.
+   *Restart* it (keys and menus in §3.1).
 
 ## 4. The Python subset used in the course
 
@@ -164,15 +218,18 @@ CasADi is installed only if you want the Session 8 extension: `uv sync --extra c
 2. Do exercise **S0.1**: [exercises/session_00/S0.1_python_self_check.md](../../exercises/session_00/S0.1_python_self_check.md).
 3. `uv run pytest` ends with "passed".
 
-Session 1 starts with a 10-minute check of these three points. If one of them fails, note the
-exact error message and the step where it appeared, and bring it to Session 1.
+These three points close Session 0. If one of them fails and there is no time left in class,
+note the exact error message and the step where it appeared, and bring it to Session 1.
 
 ## Common problems
 
 | Symptom | Likely cause | Fix |
 |---------|--------------|-----|
 | `uv: command not found` / not recognised | the terminal was opened before uv was installed | close and reopen the terminal |
-| `ModuleNotFoundError: No module named 'energy_training'` in a notebook | the notebook uses a different Python (kernel) | select the `.venv` kernel (§3), or start with `uv run jupyter lab` |
+| `ModuleNotFoundError: No module named 'energy_training'` in a notebook | JupyterLab was started without `uv run`, or from another Python installation (e.g. Anaconda) | close it; in the course folder start `uv run jupyter lab` (§3.1) |
+| `jupyter` not recognised / `Failed to spawn: jupyter` | `uv sync` was not run, or the command was run outside the course folder | `cd` into the course folder, `uv sync`, then `uv run jupyter lab` |
+| the browser shows "connection refused" / cannot reach `localhost` | JupyterLab is not running (its terminal was closed) | start `uv run jupyter lab` again |
+| no browser tab opens, or the page asks for a password or token | the address was typed by hand, without the token | copy the full `http://localhost:...` address that the terminal prints |
 | `ModuleNotFoundError` when running a script | the script was started with `python` instead of `uv run python` | use `uv run python ...` |
 | `FileNotFoundError` for a data file | the command was run outside the course folder | `cd` into the course folder first |
 | results differ slightly from the course material | different package versions | `uv sync` (do not upgrade packages) |

@@ -7,7 +7,7 @@ Verbs follow Bloom's revised taxonomy. Each outcome is assessed by at least one 
 By the end of the course the participant can:
 
 - **CO0** Set up a Python environment and use notebooks, NumPy, pandas and Matplotlib to load,
-  process and plot energy time series (Session 0, self-assessed).
+  process and plot energy time series (Session 0, assessed by S0.1 in class).
 - **CO1** Formulate a lumped dynamic model of a thermal/hydronic energy system from
   physical assumptions and conservation laws, identifying states, inputs, outputs, parameters.
 - **CO2** Implement such a model both causally (Python ODE) and acausally (Modelica), and
