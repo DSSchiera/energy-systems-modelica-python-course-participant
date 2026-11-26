@@ -65,9 +65,13 @@ The course uses both.
 - A **notebook** (`.ipynb`) mixes text, code and results. It is for exploring and explaining:
   every session has one in `python/notebooks/`. The course opens notebooks with **JupyterLab**
   (§3.1) `[src: jupyterlab-docs]`.
-- A **script** (`.py`) runs from top to bottom: `uv run python exercises/session_00/s00_self_check.py`.
-  It is for code that must give the same result every time: exercises, figures, tests. You can
-  read and edit scripts in JupyterLab too, and run them from its terminal.
+- A **script** or **module** (`.py`) is plain Python code, run from top to bottom
+  (`uv run python file.py`) or imported by other code. It is for code that must give the same
+  result every time: the course package `energy_training`, which the notebooks import, and the
+  tests. You can read and edit `.py` files in JupyterLab too, and run them from its terminal.
+
+The exercises are notebooks too: a starting notebook in `exercises/session_NN/` with the
+instructions and the cells you complete.
 
 ### 3.1 Working in JupyterLab
 
@@ -110,8 +114,8 @@ press Esc).
 **Scripts and tests inside JupyterLab.** Open a terminal from the launcher. It starts in the
 folder shown in the file browser: go back to the course folder first (`cd` there, or click the
 folder icon at the start of the file-browser path before opening the terminal). Then use the same
-commands as in §2: `uv run python exercises/session_00/s00_self_check.py`, `uv run pytest`.
-Double-click a `.py` file in the file browser to edit it.
+commands as in §2, for example `uv run pytest`. Double-click a `.py` file in the file browser to
+edit it.
 
 **Stop.** Save, then *File → Shut Down*; or press Ctrl+C twice in the terminal that started
 JupyterLab. Closing only the browser tab leaves JupyterLab and its kernels running.

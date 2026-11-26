@@ -211,7 +211,7 @@ Q_flow = if heaterOn then Q_max else 0;
 - **G4.1** (guided, 20 min): three broken models — log line, cause, fix
   - `EnergyTraining.Examples.Broken`
 - **I4.1** (independent, 10 min): M03 — how many nodes? (tolerance: after the session)
-  - `exercises/session_04/s04_i1_convergence.py`
+  - `exercises/session_04/s04_i1_convergence.ipynb`
 
 # Common pitfalls
 

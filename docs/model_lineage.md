@@ -62,17 +62,19 @@ or explicitly labelled as illustrative.
 
 ## Session dependency map
 
+```mermaid
+flowchart LR
+  S0 --> S1 --> S2 --> S3 --> S4 --> S5 --> S6 --> S7 --> S8
+  S1 -. "M01 reused" .-> S3
+  S2 -. "M03 reused" .-> S4
+  S2 -. "M02 + M03" .-> S5
+  S3 -. "PV/battery" .-> S5
+  S6 -. "FMU for replay" .-> S8
 ```
-S0 ──► S1 ──► S2 ──► S3 ──► S4 ──► S5 ──► S6 ──► S7 ──► S8
-        │      │      ▲      ▲      ▲      ▲      ▲      ▲
-        │      └──────┘      │      │      │      │      │
-        └── M01 reused in S3 │      │      │      │      │
-               M03 reused in S4      │      │      │      │
-               M02 + M03 + S3 PV/battery reused in S5 (M05)
-                                     S5 inputs/outputs define the S6 FMU
-                                            S6 scenario runner feeds S7 economics
-                                                   S7 costs and S6 FMU are used in S8
-```
+
+*Solid: session order. Dotted: a model built in one session and reused in a later one. Each
+session also builds on the previous one: S5 inputs/outputs define the S6 FMU, the S6 scenario
+runner feeds the S7 economics, and the S7 costs are used in S8.*
 
 Hard dependencies: S1 needs the S0 environment; S3 needs S1–S2 equations; S4 needs S3 syntax;
 S5 needs S3 connectors and components and S4 debugging; S6 needs M05; S7 needs the S6 scenario

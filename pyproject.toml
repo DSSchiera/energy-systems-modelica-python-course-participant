@@ -62,3 +62,8 @@ src = ["python/src"]
 
 [tool.ruff.lint]
 select = ["E", "F", "W", "I", "B", "UP", "NPY"]
+
+[tool.ruff.lint.per-file-ignores]
+# Starting notebooks are incomplete by design: imports the participant will use and
+# names defined in the cells they complete.
+"exercises/**/*.ipynb" = ["F401", "F821", "F841"]

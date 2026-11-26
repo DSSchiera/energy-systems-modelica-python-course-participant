@@ -71,9 +71,10 @@ subtitle: "Dynamic Modelling, Modelica and Techno-Economic Optimization of Energ
 
 - **Notebook** (`.ipynb`): text, code and results together — to explore and explain
   - opened in **JupyterLab**, the course interface: `uv run jupyter lab`
-- **Script** (`.py`): runs top to bottom — for exercises, figures, tests
-  - `uv run python exercises/session_00/s00_self_check.py`
-  - edit it in JupyterLab, run it from a JupyterLab terminal
+  - the exercises are notebooks too: `exercises/session_NN/*.ipynb`
+- **Script / module** (`.py`): plain code — the course package and the tests
+  - `uv run pytest`, from a JupyterLab terminal
+  - edit `.py` files in JupyterLab
 
 # Working in JupyterLab
 
